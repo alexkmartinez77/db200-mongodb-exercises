@@ -1,5 +1,4 @@
 //QUERY/FIND DOCUMENTS
-
 // 1 get all documents
 db.movies.find({})
 // 2 get all documents with writer set to "Quentin Tarantino"
@@ -21,6 +20,18 @@ db.movies.update({"title": "The Hobbit: An Unexpected Journey"}, {$set: {"synpos
 // 2 add a synopsis to "The Hobbit: The Desolation of Smaug" : "The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring."
 db.movies.update({"title": "The Hobbit: The Desolation of Smaug"}, {$set: {"synposis": "The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring."}})
 // 3 add an actor named "Samuel L. Jackson" to the movie "Pulp Fiction"
-db.movies.update({"title":"Pulp Fiction"},{$set:{"actor":"Samuel L. Jackson"}}) // added actor rather than to the actors array
-db.movies.update({"title":"Pulp Fiction"},{$unset:{"actor":1}})                 // removes the actor key/value pair
+db.movies.update({"title":"Pulp Fiction"}, {$set:{"actor":"Samuel L. Jackson"}})      // added actor rather than to the actors array
+db.movies.update({"title":"Pulp Fiction"}, {$unset:{"actor":1}})                      // removes the actor key/value pair
+db.movies.update({"title":"Pulp Fiction"}, {$push:{"actors":"Samuel L. Jackson"}})    // 
+//TEXT SEARCH
+db.movies.createIndex( { synopsis: "text" } )                                         //First thing to do is index the synposis key
+// 1 find all movies that have a synopsis that contains the word "Bilbo"
+db.movies.find( { $text: { $search: "bilbo" } } )
+// 2 find all movies that have a synopsis that contains the word "Gandalf"
+db.movies.find( { $text: { $search: "Gandalf" } } )
+// 3 find all movies that have a synopsis that contains the word "Bilbo" and not the word "Gandalf"
+
+// 4 find all movies that have a synopsis that contains the word "dwarves" or "hobbit"
+
+// 5 find all movies that have a synopsis that contains the word "gold" and "dragon"
 
