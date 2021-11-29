@@ -32,15 +32,19 @@ db.movies.update({"title": "Pulp Fiction"}, {$push:{"actors":"Samuel L. Jackson"
 
 //TEXT SEARCH
 db.movies.createIndex( { synopsis: "text" } )                                         // First thing to do is index the synposis key
-db.movies.getIndexes()
-db.movies.dropIndex("synopsis_text")
+db.movies.getIndexes()                                                                // See all indexes on this collection / table
+db.movies.dropIndex("synopsis_text")                                                  // Drops an index
 // 1 find all movies that have a synopsis that contains the word "Bilbo"
-db.movies.find( { $text: { $search: "Bilbo" } } )                                     //  Only returned document when biblo was first word
+db.movies.find( { $text: { $search: "Bilbo" } } )                               
 // 2 find all movies that have a synopsis that contains the word "Gandalf"
 db.movies.find( { $text: { $search: "Gandalf" } } )
 // 3 find all movies that have a synopsis that contains the word "Bilbo" and not the word "Gandalf"
-
+db.movies.find( { $text: { $search: "Bilbo -Gandalf" } } )
 // 4 find all movies that have a synopsis that contains the word "dwarves" or "hobbit"
-
+db.movies.find( { $text: { $search: "dwarves hobbit" } } )
 // 5 find all movies that have a synopsis that contains the word "gold" and "dragon"
-
+db.movies.find( { $text: { $search: '"gold" "dragon"' } } )
+// 6 find all movies that have a synopsis that contains the word "Bilbo" and "Erebor"
+db.movies.find( { $text: { $search: '"Bilbo" "Erebor"' } } )
+// 7 fin movie that has synopsis with exact phrase "Lonely Mountain"
+db.movies.find( { $text: { $search: "\"Lonely Mountain\"" } } )
