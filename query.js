@@ -17,16 +17,25 @@ db.movies.find({"$nor": [{"year": {"$gt":2010}}, {"year": {"$lt":2000}}]})
 //UPDATE DOCUMENTS
 // 1 add a synopsis to "The Hobbit: An Unexpected Journey" : "A reluctant hobbit, Bilbo Baggins, sets out to the Lonely Mountain with a spirited group of dwarves to reclaim their mountain home - and the gold within it - from the dragon Smaug."
 db.movies.update({"title": "The Hobbit: An Unexpected Journey"}, {$set: {"synposis": "A reluctant hobbit, Bilbo Baggins, sets out to the Lonely Mountain with a spirited group of dwarves to reclaim their mountain home - and the gold within it - from the dragon Smaug."}})
+db.movies.update({"title": "The Hobbit: An Unexpected Journey"}, {$unset:{"synposis":1}})
+db.movies.update({"title": "The Hobbit: An Unexpected Journey"}, {$set: {"synopsis": "A reluctant hobbit, Bilbo Baggins, sets out to the Lonely Mountain with a spirited group of dwarves to reclaim their mountain home - and the gold within it - from the dragon Smaug."}})
+
 // 2 add a synopsis to "The Hobbit: The Desolation of Smaug" : "The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring."
 db.movies.update({"title": "The Hobbit: The Desolation of Smaug"}, {$set: {"synposis": "The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring."}})
+db.movies.update({"title": "The Hobbit: The Desolation of Smaug"}, {$unset:{"synposis":1}}) 
+db.movies.update({"title": "The Hobbit: The Desolation of Smaug"}, {$set: {"synopsis": "The dwarves, along with Bilbo Baggins and Gandalf the Grey, continue their quest to reclaim Erebor, their homeland, from Smaug. Bilbo Baggins is in possession of a mysterious and magical ring."}})
+
 // 3 add an actor named "Samuel L. Jackson" to the movie "Pulp Fiction"
-db.movies.update({"title":"Pulp Fiction"}, {$set:{"actor":"Samuel L. Jackson"}})      // added actor rather than to the actors array
-db.movies.update({"title":"Pulp Fiction"}, {$unset:{"actor":1}})                      // removes the actor key/value pair
-db.movies.update({"title":"Pulp Fiction"}, {$push:{"actors":"Samuel L. Jackson"}})    // 
+db.movies.update({"title": "Pulp Fiction"}, {$set:{"actor":"Samuel L. Jackson"}})      // added actor rather than to the actors array
+db.movies.update({"title": "Pulp Fiction"}, {$unset:{"actor":1}})                      // removes the actor key/value pair
+db.movies.update({"title": "Pulp Fiction"}, {$push:{"actors":"Samuel L. Jackson"}})    // 
+
 //TEXT SEARCH
-db.movies.createIndex( { synopsis: "text" } )                                         //First thing to do is index the synposis key
+db.movies.createIndex( { synopsis: "text" } )                                         // First thing to do is index the synposis key
+db.movies.getIndexes()
+db.movies.dropIndex("synopsis_text")
 // 1 find all movies that have a synopsis that contains the word "Bilbo"
-db.movies.find( { $text: { $search: "bilbo" } } )
+db.movies.find( { $text: { $search: "Bilbo" } } )                                     //  Only returned document when biblo was first word
 // 2 find all movies that have a synopsis that contains the word "Gandalf"
 db.movies.find( { $text: { $search: "Gandalf" } } )
 // 3 find all movies that have a synopsis that contains the word "Bilbo" and not the word "Gandalf"
