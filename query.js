@@ -80,4 +80,22 @@ db.posts.find({"title": "Passes out at party"})
 db.comments.insert({"username": "JimmyHagen", "comment": "It still isn't clean", "post": ObjectId("61a566379e726b7057d62631")})
 
 db.posts.find({"title": "Reports a bug in your code"})
-db.comments.insert({"username": "JimmyHagen", "comment": "Denied your PR cause I found a hack", "post": ObjectId("61a5664d9e726b7057d62633"),})
+db.comments.insert({"username": "JimmyHagen", "comment": "Denied your PR cause I found a hack", "post": ObjectId("61a5664d9e726b7057d62633")})
+
+//QUERY RELATED COLLECTIONS
+// 1 find all users
+db.users.find({})
+// 2 find all posts
+db.posts.find({})
+// 3 find all posts authored by "SallySmith"
+db.posts.find({"username": "SallySmith"})
+// 4 find all posts authored by "JimmyHagen"
+db.posts.find({"username": "JimmyHagen"})
+// 5 find all comments
+db.comments.find({})
+// 5 find all comments authored by "SallySmith"
+db.comments.find({"username": "SallySmith"})
+// 6 find all comments authored by "JimmyHagen"
+db.comments.find({"username": "JimmyHagen"})
+// 7 find all comments belonging to the post "Reports a bug in your code"
+db.comments.find({"post": ObjectId("61a5664d9e726b7057d62633")})
