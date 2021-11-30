@@ -48,3 +48,36 @@ db.movies.find( { $text: { $search: '"gold" "dragon"' } } )
 db.movies.find( { $text: { $search: '"Bilbo" "Erebor"' } } )
 // 7 fin movie that has synopsis with exact phrase "Lonely Mountain"
 db.movies.find( { $text: { $search: "\"Lonely Mountain\"" } } )
+
+
+// DELETE DOCUMENTS
+// 1 delete the movie "Pee Wee Herman's Big Adventure"
+db.movies.deleteOne({"title": "Pee Wee Herman's Big Adventure"})
+// 2 delete the movie "Avatar"
+db.movies.deleteOne({"title": "Avatar"})
+
+// Create users collection
+db.users.insert({"username": "SallySmith", "first_name": "Sally", "last_name": "Smith"})
+db.users.insert({"username": "JimmyHagen", "full_name": {"first": "Jimmy", "last": "Hagen"}})
+// Create posts collection
+db.posts.insert({"username": "SallySmith", "title": "Passes out at party", "body": "Wakes up early and cleans house"})
+db.posts.insert({"username": "SallySmith", "title": "Buys a House", "body": "Living in a new neighborhood now"})
+db.posts.insert({"username": "SallySmith", "title": "Reports a bug in your code", "body": "Sends you a Pull Request"})
+db.posts.insert({"username": "JimmyHagen", "title": "Borrows something", "body": "Returns it when he is done"})
+db.posts.insert({"username": "JimmyHagen", "title": "Borrows everything", "body": "The end"})
+db.posts.insert({"username": "JimmyHagen", "title": "Forks your repo on github", "body": "Sets to private"})
+// Create comments collection
+db.posts.find({"title": "Borrows something"})
+db.comments.insert({"username": "SallySmith", "comment": "Hope you got a good deal!", "post": ObjectId("61a566599e726b7057d62634")})
+
+db.posts.find({"title": "Borrows everything"})
+db.comments.insert({"username": "SallySmith", "comment": "What's mine is yours!", "post": ObjectId("61a566619e726b7057d62635")})
+
+db.posts.find({"title": "Forks your repo on github"})
+db.comments.insert({"username": "SallySmith", "comment": "Don't violate the licensing agreement!", "post": ObjectId("61a566729e726b7057d62636")})
+
+db.posts.find({"title": "Passes out at party"})
+db.comments.insert({"username": "JimmyHagen", "comment": "It still isn't clean", "post": ObjectId("61a566379e726b7057d62631")})
+
+db.posts.find({"title": "Reports a bug in your code"})
+db.comments.insert({"username": "JimmyHagen", "comment": "Denied your PR cause I found a hack", "post": ObjectId("61a5664d9e726b7057d62633"),})
